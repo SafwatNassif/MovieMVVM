@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Movie App Starter</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--movie_list_fragment-->
+    <string name="poster_path">poster_path</string>
+
+</resources>
