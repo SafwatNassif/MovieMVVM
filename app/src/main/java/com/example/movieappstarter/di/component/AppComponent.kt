@@ -1,6 +1,8 @@
 package com.example.movieappstarter.di.component
 
+import android.content.Context
 import com.example.movieappstarter.application.MovieApp
+import com.example.movieappstarter.data.local.SharedPrefUtils
 import com.example.movieappstarter.di.module.*
 import dagger.BindsInstance
 import dagger.Component
@@ -28,6 +30,9 @@ interface AppComponent {
 
         @BindsInstance
         fun application(movieApp: MovieApp): AppBuilder
+
+        @BindsInstance
+        fun context(context: Context): AppBuilder
 
         fun build(): AppComponent
     }

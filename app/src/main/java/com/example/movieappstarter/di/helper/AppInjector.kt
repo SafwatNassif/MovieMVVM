@@ -23,6 +23,7 @@ object AppInjector {
     fun init(movieApp: MovieApp) {
         appComponent = DaggerAppComponent.builder()
             .application(movieApp)
+            .context(movieApp.baseContext)
             .build()
 
         appComponent.inject(movieApp)

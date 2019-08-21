@@ -25,8 +25,9 @@ class SharedPrefUtils @Inject constructor(private val context: Context) {
     private fun getInt(key: String) = pref.getInt(key, 0)
 
 
-
-
+    fun setName(name: String) {
+        putString("name", name)
+    }
 
 
     companion object {
