@@ -15,14 +15,19 @@ import javax.inject.Inject
 class MovieListFragmentViewModel @Inject
 constructor(private val movieListRepository: MovieListRepository) : BaseViewModel() {
 
-    fun fetchMovieList(): LiveData<PagedList<Movie>> {
-        val factory = MovieListDataSourceFactory(movieListRepository, compositeDisposable)
-        val config = PagedList.Config.Builder()
-            .setPageSize(10)
-            .setEnablePlaceholders(true)
-            .build()
+    lateinit var movieList: LiveData<PagedList<Movie>>
 
-        return LivePagedListBuilder<Int, Movie>(factory, config).build()
+    fun fetchMovieList(): LiveData<PagedList<Movie>> {
+
+        if (!::movieList.isInitialized) {
+            val factory = MovieListDataSourceFactory(movieListRepository, compositeDisposable)
+            val config = PagedList.Config.Builder()
+                .setPageSize(10)
+                .setEnablePlaceholders(true)
+                .build()
+            movieList = LivePagedListBuilder<Int, Movie>(factory, config).build()
+        }
+        return movieList
     }
 
 
