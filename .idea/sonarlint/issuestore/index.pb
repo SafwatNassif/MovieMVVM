@@ -29,10 +29,6 @@ Qapp/src/main/java/com/example/movieappstarter/data/remote/home/PopularMovieApi.
 Kapp/src/main/java/com/example/movieappstarter/data/local/SharedPrefUtils.kt,4\c\4c775fc91cb948cbb1e376c0606e664424b836b3
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-w
-Gapp/src/main/java/com/example/movieappstarter/data/local/model/Movie.kt,a\8\a8d1442e4d35c90a186b2f65d5d38442e031bc9a
-{
-Kapp/src/main/java/com/example/movieappstarter/data/local/model/PageMovie.kt,3\3\33a3156933cc673ab51df2558e9608073085db2a
 
 Oapp/src/main/java/com/example/movieappstarter/ui/home/activity/HomeViewModel.kt,4\0\4074ea488864b87ecd6544c74ab966cd4e8738bd
 ~
@@ -65,3 +61,21 @@ Xapp/src/main/java/com/example/movieappstarter/ui/home/fragment/list/MovieListFr
 happ/src/main/java/com/example/movieappstarter/ui/home/fragment/list/paging/MovieListDataSourceFactory.kt,b\9\b90e15eaf66e12af7249a20e06fd544cebe99cae
 Ž
 ^app/src/main/java/com/example/movieappstarter/ui/home/fragment/list/paging/MovieListAdapter.kt,d\8\d8a2aa15f7d3451d6beafa88414a16a670ef27cf
+;
+app/app.iml,7\c\7c1d2a1927c01fa75a9b4c74ea8addcc06b327ae
+u
+Eapp/src/main/java/com/example/movieappstarter/data/model/PageMovie.kt,1\c\1c7b97d65f83867ed7389ab8c6d6acb89bf6cd2e
+
+_app/src/main/java/com/example/movieappstarter/data/remote/home/errorHandler/ErrorInterceptor.kt,a\c\ace5266048b51dbf94c8c71a7bd735898f5076c0
+q
+Aapp/src/main/java/com/example/movieappstarter/data/model/Movie.kt,b\5\b5ecdd0c1cd998b843b72ab38f61ef880b9aa6b5
+ 
+papp/src/main/java/com/example/movieappstarter/data/remote/home/errorHandler/RxErrorHandlingCallAdapterFactory.kt,e\e\eeda565a6c40b023610b11e50e01f8b484672500
+u
+Eapp/src/main/java/com/example/movieappstarter/data/model/ErrorBody.kt,f\5\f588a97bf9a655a131458ab64db999b0952444b2
+
+`app/src/main/java/com/example/movieappstarter/data/remote/home/errorHandler/RetrofitException.kt,9\d\9dce344b03a64463f66009d1ab884fb291c5f9a8
+x
+Happ/src/main/java/com/example/movieappstarter/data/model/BaseResponse.kt,2\6\26df646e64155b3f5ee27c704fcc6e171e042d14
+p
+@app/src/main/java/com/example/movieappstarter/utils/Extention.kt,d\3\d3dfb4b18a0ef7b6be89b5e4551f83ed82e1ec09

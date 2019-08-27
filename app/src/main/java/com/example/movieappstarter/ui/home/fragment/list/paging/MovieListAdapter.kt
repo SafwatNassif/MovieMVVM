@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieappstarter.R
-import com.example.movieappstarter.data.local.model.Movie
+import com.example.movieappstarter.data.model.Movie
 import com.example.movieappstarter.utils.base.ItemTouchBackgroundViewHolderHelper
 import com.example.movieappstarter.utils.base.OnStartDrag
 import com.example.movieappstarter.utils.base.TouchHelperAdapter

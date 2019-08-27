@@ -14,6 +14,7 @@
       </option>
       <option name="VALUE_RESOURCE_FILE_SETTINGS">
         <value>
+          <option name="INSERT_LINE_BREAKS_AROUND_STYLE" value="false" />
           <option name="WRAP_ATTRIBUTES" value="2" />
         </value>
       </option>
