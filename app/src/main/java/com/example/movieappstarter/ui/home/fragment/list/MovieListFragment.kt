@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieappstarter.R
 import com.example.movieappstarter.data.model.Status
 import com.example.movieappstarter.ui.home.fragment.list.paging.MovieListAdapter
+import com.example.movieappstarter.ui.home.fragment.list.paging.PageListFooter
+import com.example.movieappstarter.ui.home.fragment.list.paging.RetryListener
 import com.example.movieappstarter.utils.base.BaseFragment
 import com.example.movieappstarter.utils.base.OnStartDrag
 import com.example.movieappstarter.utils.base.TouchHelperCallback
@@ -29,8 +31,8 @@ class MovieListFragment : BaseFragment() {
     lateinit var itemTouchHelperCallback: ItemTouchHelper.Callback
     lateinit var itemTouchHelper: ItemTouchHelper
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_movie_list, container, false)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieListFragmentViewModel::class.java)
@@ -46,15 +48,44 @@ class MovieListFragment : BaseFragment() {
 
 
     private fun initView(rootView: View?) {
-        rootView!!.rc_movie_list.layoutManager = GridLayoutManager(context, 2)
-        movieListAdapter = MovieListAdapter(object : OnStartDrag {
-            override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
-                itemTouchHelper.startDrag(viewHolder)
-            }
 
-        })
-        rootView.rc_movie_list.adapter = movieListAdapter
+        movieListAdapter = MovieListAdapter(
+            object : OnStartDrag {
+                override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
+                    itemTouchHelper.startDrag(viewHolder)
+                }
+
+            },
+            object : RetryListener {
+                override fun retry() {
+                    viewModel.retry()
+                }
+
+            })
+
+
+        rootView!!.rc_movie_list.adapter = movieListAdapter
         itemTouchHelperCallback = TouchHelperCallback(movieListAdapter)
+
+
+        val layoutManager = GridLayoutManager(context, 2)
+
+//        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int {
+//                return when (movieListAdapter.getItemViewType(position)) {
+//                    (MovieListAdapter.FOOTER ) -> {
+//                        2
+//                    }
+//                    else -> {
+//                        1
+//                    }
+//                }
+//            }
+//
+//        }
+
+        rootView.rc_movie_list.layoutManager = layoutManager
+
         itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
 
         itemTouchHelper.attachToRecyclerView(rootView.rc_movie_list)
@@ -73,15 +104,17 @@ class MovieListFragment : BaseFragment() {
                 Status.LOADING -> {
                     if (movieListAdapter.itemCount == 0 || sw_refresh.isRefreshing) {
                         shimmer_list_loading.visibility = View.VISIBLE
-                        movie_load_more.visibility = View.GONE
+//                        movie_load_more.visibility = View.GONE
+                        movieListAdapter.setFooter(PageListFooter.NONE)
+
                     } else {
                         shimmer_list_loading.visibility = View.GONE
-                        movie_load_more.visibility = View.VISIBLE
+                        movieListAdapter.setFooter(PageListFooter.LOADING)
                     }
                 }
                 Status.LOADED -> {
                     shimmer_list_loading.visibility = View.GONE
-                    movie_load_more.visibility = View.GONE
+                    movieListAdapter.setFooter(PageListFooter.NONE)
                     sw_refresh.isRefreshing = false
                     rc_movie_list.visibility = View.VISIBLE
                 }
@@ -98,12 +131,14 @@ class MovieListFragment : BaseFragment() {
 
 
         viewModel.error.observe(this, Observer {
+            movieListAdapter.setFooter(PageListFooter.RETRY)
             sw_refresh.isRefreshing = false
             Alerter.create(activity)
-                    .setTitle(R.string.app_name)
-                    .setText(it.remoteError ?: context!!.getString(it.localError!!))
-                    .setBackgroundColorInt(context!!.getColor(R.color.red))
-                    .show()}
+                .setTitle(R.string.app_name)
+                .setText(it.remoteError ?: context!!.getString(it.localError!!))
+                .setBackgroundColorInt(context!!.getColor(R.color.red))
+                .show()
+        }
         )
 
     }

@@ -14,8 +14,6 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseViewModel : ViewModel() {
     val compositeDisposable = CompositeDisposable()
     val error = MutableLiveData<Status.Error>()
-    val loadMore = MutableLiveData<Boolean>()
-    val loading = MutableLiveData<Boolean>()
 
     override fun onCleared() {
         super.onCleared()

@@ -21,6 +21,8 @@ constructor(
 
     private val _error = MutableLiveData<Throwable>()
     private val _progressStatus = MutableLiveData<Status>()
+    private lateinit var params: LoadParams<Int>
+    private lateinit var callback: LoadCallback<Int, Movie>
 
     fun getErrorLiveStatus(): MutableLiveData<Throwable> {
         return _error
@@ -47,12 +49,19 @@ constructor(
                 .subscribe(Consumer {
                     callback.onResult(it.movies, params.key + 1)
                 }, Consumer {
+                    this.params = params
+                    this.callback = callback
                     _error.postValue(it)
                 }, compositeDisposable, status = _progressStatus)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         //pass
+    }
+
+
+    fun retry() {
+        loadAfter(this.params, this.callback)
     }
 
 }

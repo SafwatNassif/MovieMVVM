@@ -34,8 +34,7 @@ constructor(private val movieListRepository: MovieListRepository) : BaseViewMode
             factory = MovieListDataSourceFactory(movieListRepository, compositeDisposable)
             val config = PagedList.Config.Builder()
                     .setPageSize(10)
-
-                    .setEnablePlaceholders(false)
+                    .setEnablePlaceholders(true)
                     .build()
             movieList = LivePagedListBuilder<Int, Movie>(factory, config).build()
 
@@ -63,6 +62,11 @@ constructor(private val movieListRepository: MovieListRepository) : BaseViewMode
             factory.dataSource.invalidate()
         else
             handelError(RetrofitException.networkError(IOException("no Internet connection")))
+    }
+
+
+    fun retry() {
+        factory.dataSource.retry()
     }
 
     fun getProgressStatus() = progressStatus

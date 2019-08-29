@@ -14,15 +14,23 @@ import com.example.movieappstarter.utils.base.ItemTouchBackgroundViewHolderHelpe
 import com.example.movieappstarter.utils.base.OnStartDrag
 import com.example.movieappstarter.utils.base.TouchHelperAdapter
 import kotlinx.android.synthetic.main.item_movie_list.view.*
+import kotlinx.android.synthetic.main.retry_loading_item.view.*
 
 /**
  * Created by Safwat Nassif on 7/30/2019.
  */
-class MovieListAdapter(val startDrage: OnStartDrag) : PagedListAdapter<Movie, RecyclerView.ViewHolder>(DiffUtil),
+class MovieListAdapter(val startDrage: OnStartDrag, val retryListener: RetryListener) :
+    PagedListAdapter<Movie, RecyclerView.ViewHolder>(DiffUtil),
     TouchHelperAdapter {
 
 
     companion object {
+
+        val FOOTER = 1
+        val FOOTER_RETRY = 2
+        val ROW_ITEM = 3
+
+
         val DiffUtil = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id
@@ -35,23 +43,51 @@ class MovieListAdapter(val startDrage: OnStartDrag) : PagedListAdapter<Movie, Re
         }
     }
 
+    var pagedListFooter: PageListFooter = PageListFooter.NONE
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MovieViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_movie_list, parent, false)
-        )
+        return if (viewType == ROW_ITEM) {
+            MovieViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_movie_list,
+                    parent,
+                    false
+                )
+            )
+        } else if (viewType == FOOTER) {
+            FooterLoadingViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.load_more_indecator,
+                    parent,
+                    false
+                )
+            )
+        } else {
+            FooterRetryViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.retry_loading_item,
+                    parent,
+                    false
+                )
+            )
+        }
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val movieView = holder as MovieViewHolder
-        movieView.bind(getItem(position)!!)
 
+        when (getItemViewType(position)) {
+            FOOTER -> {
+                (holder as FooterLoadingViewHolder)
+            }
+            FOOTER_RETRY -> {
+                (holder as FooterRetryViewHolder).bind(retryListener)
+            }
+            ROW_ITEM -> {
+                (holder as MovieViewHolder).bind(getItem(position)!!, startDrage)
+            }
 
-        movieView.view.setOnLongClickListener {
-            startDrage.startDrag(movieView)
-            true
         }
-
     }
 
 
@@ -61,16 +97,47 @@ class MovieListAdapter(val startDrage: OnStartDrag) : PagedListAdapter<Movie, Re
         return true
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (position < super.getItemCount() && getItem(position) != null)
+            ROW_ITEM
+        else if (pagedListFooter == PageListFooter.RETRY)
+            FOOTER_RETRY
+        else
+            FOOTER
+    }
+
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasFooter()) 2 else 0
+    }
+
+
+    fun setFooter(pageListFooter: PageListFooter) {
+        if (this.pagedListFooter != pageListFooter) {
+            this.pagedListFooter = pageListFooter
+            notifyDataSetChanged()
+        }
+    }
+
+    fun hasFooter(): Boolean {
+        return super.getItemCount() != 0 && (pagedListFooter is PageListFooter.LOADING)
+    }
+
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view), ItemTouchBackgroundViewHolderHelper {
 
-        fun bind(movie: Movie) {
+        fun bind(
+            movie: Movie,
+            startDrage: OnStartDrag
+        ) {
             movie.let {
                 Glide.with(view.iv_poster.context)
                     .load("http://image.tmdb.org/t/p/w500" + it.posterPath)
                     .centerCrop()
                     .into(view.iv_poster)
             }
-
+            view.setOnLongClickListener {
+                startDrage.startDrag(this)
+                true
+            }
         }
 
         override fun onItemClear() {
@@ -82,5 +149,23 @@ class MovieListAdapter(val startDrage: OnStartDrag) : PagedListAdapter<Movie, Re
         }
 
     }
+
+
+    class FooterLoadingViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+
+    class FooterRetryViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(retryListener: RetryListener) {
+            view.reload.setOnClickListener {
+                retryListener.retry()
+            }
+        }
+    }
+
+}
+
+sealed class PageListFooter {
+    object LOADING : PageListFooter()
+    object RETRY : PageListFooter()
+    object NONE : PageListFooter()
 
 }
