@@ -70,19 +70,22 @@ class MovieListFragment : BaseFragment() {
 
         val layoutManager = GridLayoutManager(context, 2)
 
-//        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//            override fun getSpanSize(position: Int): Int {
-//                return when (movieListAdapter.getItemViewType(position)) {
-//                    (MovieListAdapter.FOOTER ) -> {
-//                        2
-//                    }
-//                    else -> {
-//                        1
-//                    }
-//                }
-//            }
-//
-//        }
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (movieListAdapter.getItemViewType(position)) {
+                    (MovieListAdapter.FOOTER) -> {
+                        2
+                    }
+                    MovieListAdapter.FOOTER_RETRY -> {
+                        2
+                    }
+                    else -> {
+                        1
+                    }
+                }
+            }
+
+        }
 
         rootView.rc_movie_list.layoutManager = layoutManager
 

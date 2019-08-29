@@ -107,7 +107,7 @@ class MovieListAdapter(val startDrage: OnStartDrag, val retryListener: RetryList
     }
 
     override fun getItemCount(): Int {
-        return super.getItemCount() + if (hasFooter()) 2 else 0
+        return super.getItemCount() + if (hasFooter()) 1 else 0
     }
 
 
@@ -118,8 +118,9 @@ class MovieListAdapter(val startDrage: OnStartDrag, val retryListener: RetryList
         }
     }
 
-    fun hasFooter(): Boolean {
-        return super.getItemCount() != 0 && (pagedListFooter is PageListFooter.LOADING)
+    private fun hasFooter(): Boolean {
+        return super.getItemCount() != 0 &&
+                ((pagedListFooter is PageListFooter.LOADING) || (pagedListFooter is PageListFooter.RETRY))
     }
 
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view), ItemTouchBackgroundViewHolderHelper {
