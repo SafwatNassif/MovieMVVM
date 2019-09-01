@@ -1,7 +1,7 @@
 package com.example.movieappstarter.ui.home.fragment.list
 
 import com.example.movieappstarter.data.local.SharedPrefUtils
-import com.example.movieappstarter.data.local.model.PageMovie
+import com.example.movieappstarter.data.model.PageMovie
 import com.example.movieappstarter.data.remote.home.HomeRemoteDataSource
 import com.example.movieappstarter.utils.base.BaseRepository
 import io.reactivex.Single
@@ -19,7 +19,7 @@ class MovieListRepository @Inject constructor() : BaseRepository() {
     lateinit var sharedPrefUtils: SharedPrefUtils
 
     fun getPopularMovie(page: Int): Single<PageMovie> {
-        sharedPrefUtils.setName("safwat")
+//        sharedPrefUtils.setName("safwat")
         return homeRemoteDataSource.getPopularMovie(page)
     }
 

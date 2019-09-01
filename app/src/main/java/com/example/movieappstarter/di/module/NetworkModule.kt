@@ -1,12 +1,12 @@
 package com.example.movieappstarter.di.module
 
 import com.example.movieappstarter.BuildConfig
+import com.example.movieappstarter.data.remote.home.errorHandler.RxErrorHandlingCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -40,13 +40,21 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient, adapterFactory: RxErrorHandlingCallAdapterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.HOST)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(adapterFactory)
             .build()
     }
+
+
+    @Singleton
+    @Provides
+    fun provideRxErrorHandlingCallAdapterFactory(): RxErrorHandlingCallAdapterFactory {
+        return RxErrorHandlingCallAdapterFactory.create()
+    }
+
 
 }

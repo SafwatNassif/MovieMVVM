@@ -27,7 +27,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MovieListFragmentViewModel::class)
-    abstract fun bindMovieListViewModel(movieListViewModel: MovieListFragmentViewModel): MovieListFragmentViewModel
+    abstract fun bindMovieListViewModel(movieListViewModel: MovieListFragmentViewModel): ViewModel
 
 
 

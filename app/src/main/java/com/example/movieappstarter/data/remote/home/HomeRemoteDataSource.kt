@@ -1,9 +1,6 @@
 package com.example.movieappstarter.data.remote.home
 
-import androidx.paging.DataSource
-import androidx.paging.PageKeyedDataSource
-import com.example.movieappstarter.data.local.model.Movie
-import com.example.movieappstarter.data.local.model.PageMovie
+import com.example.movieappstarter.data.model.PageMovie
 import io.reactivex.Single
 import retrofit2.Retrofit
 import javax.inject.Inject

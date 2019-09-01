@@ -1,7 +1,7 @@
 package com.example.movieappstarter.data.remote.home
 
 import com.example.movieappstarter.BuildConfig
-import com.example.movieappstarter.data.local.model.PageMovie
+import com.example.movieappstarter.data.model.PageMovie
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

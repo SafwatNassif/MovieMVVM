@@ -7,9 +7,9 @@ import javax.inject.Inject
 /**
  * Created by Safwat Nassif on 7/26/2019.
  */
-abstract class BaseFragment<mViewModel : BaseViewModel> : Fragment(), Injectable {
+abstract class BaseFragment : Fragment(), Injectable {
     @Inject
-    lateinit var viewModel: mViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
 
 }

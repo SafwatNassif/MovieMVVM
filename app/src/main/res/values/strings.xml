@@ -6,5 +6,6 @@
 
     <!--movie_list_fragment-->
     <string name="poster_path">poster_path</string>
+    <string name="no_internet">no internet connection</string>
 
 </resources>
