@@ -5,13 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieappstarter.R
 import com.example.movieappstarter.data.model.Status
+import com.example.movieappstarter.ui.home.fragment.list.paging.MovieItemListener
 import com.example.movieappstarter.ui.home.fragment.list.paging.MovieListAdapter
 import com.example.movieappstarter.ui.home.fragment.list.paging.PageListFooter
 import com.example.movieappstarter.ui.home.fragment.list.paging.RetryListener
@@ -22,7 +28,7 @@ import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 import kotlinx.android.synthetic.main.fragment_movie_list.view.*
 
-class MovieListFragment : BaseFragment() {
+class MovieListFragment : BaseFragment(), MovieItemListener {
 
 
     lateinit var viewModel: MovieListFragmentViewModel
@@ -61,7 +67,9 @@ class MovieListFragment : BaseFragment() {
                     viewModel.retry()
                 }
 
-            })
+            },
+            this
+        )
 
 
         rootView!!.rc_movie_list.adapter = movieListAdapter
@@ -146,10 +154,21 @@ class MovieListFragment : BaseFragment() {
 
     }
 
+    override fun onMovieItemClick(movieId: Int, posterPath: String, view: View) {
+        val poster = view.findViewById<ImageView>(R.id.iv_movie_poster)
+        val fragmentOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            activity!!,
+            Pair<View, String>(poster, "shared_image_view")
+        )
+        val bundle = fragmentOptions.toBundle()
+        bundle!!.putString("poster_path", posterPath)
+
+        findNavController().navigate(R.id.detailsFragment, bundle)
+    }
+
     override fun onStop() {
         Alerter.hide()
         super.onStop()
     }
-
 
 }

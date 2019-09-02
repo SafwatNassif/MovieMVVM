@@ -75,7 +75,9 @@ u
 Eapp/src/main/java/com/example/movieappstarter/data/model/ErrorBody.kt,f\5\f588a97bf9a655a131458ab64db999b0952444b2
 
 `app/src/main/java/com/example/movieappstarter/data/remote/home/errorHandler/RetrofitException.kt,9\d\9dce344b03a64463f66009d1ab884fb291c5f9a8
-x
-Happ/src/main/java/com/example/movieappstarter/data/model/BaseResponse.kt,2\6\26df646e64155b3f5ee27c704fcc6e171e042d14
 p
 @app/src/main/java/com/example/movieappstarter/utils/Extention.kt,d\3\d3dfb4b18a0ef7b6be89b5e4551f83ed82e1ec09
+>
+app/.gitignore,5\1\51e1c5d383dfaa35e0e7e5873a0a99355a86880f
+@
+local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca

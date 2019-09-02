@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition app:constraintSetStart="@id/start_details_screen"
+                app:constraintSetEnd="@id/end_details_screen"
+                app:duration="500"
+                app:autoTransition="animateToEnd">
+
+        <!--<KeyFrameSet>-->
+        <!--<KeyPosition-->
+        <!--motion:keyPositionType="parentRelative"-->
+        <!--motion:Target="@id/iv_movie_poster"-->
+        <!--app:framePosition="0"-->
+        <!--android:scaleY="0"-->
+        <!--android:scaleX="0"/>-->
+
+        <!--<KeyPosition-->
+        <!--motion:keyPositionType="parentRelative"-->
+        <!--motion:Target="@id/iv_movie_poster"-->
+        <!--app:framePosition="100"-->
+        <!--android:scaleY="100"-->
+        <!--android:scaleX="100"/>-->
+
+        <!--</KeyFrameSet>-->
+        <!---->
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start_details_screen">
+        <Constraint android:id="@+id/iv_coordinator_background"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+        <Constraint android:id="@+id/iv_movie_poster"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_coordinator_background"
+                    app:layout_constraintTop_toBottomOf="@id/iv_coordinator_background"/>
+
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end_details_screen">
+        <Constraint android:id="@+id/iv_coordinator_background"
+                    android:layout_width="0dp"
+                    android:layout_height="180dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+        />
+
+        <Constraint android:id="@+id/iv_movie_poster"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_coordinator_background"
+                    app:layout_constraintTop_toBottomOf="@id/iv_coordinator_background"/>
+
+    </ConstraintSet>
+
+
+</MotionScene>

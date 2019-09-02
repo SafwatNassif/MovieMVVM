@@ -5,5 +5,15 @@
             app:startDestination="@id/movieList">
 
     <fragment android:id="@+id/movieList" android:name="com.example.movieappstarter.ui.home.fragment.list.MovieListFragment"
-              android:label="fragment_movie_list" tools:layout="@layout/fragment_movie_list"/>
+              android:label="fragment_movie_list" tools:layout="@layout/fragment_movie_list">
+
+        <action android:id="@+id/action_movieList_to_detailsFragment" app:destination="@id/detailsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+
+    <fragment android:id="@+id/detailsFragment"
+              android:name="com.example.movieappstarter.ui.home.fragment.details.DetailsFragment"
+              android:label="fragment_details"
+              tools:layout="@layout/fragment_details"/>
 </navigation>

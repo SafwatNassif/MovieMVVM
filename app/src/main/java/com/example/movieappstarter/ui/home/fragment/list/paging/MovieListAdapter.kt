@@ -19,7 +19,11 @@ import kotlinx.android.synthetic.main.retry_loading_item.view.*
 /**
  * Created by Safwat Nassif on 7/30/2019.
  */
-class MovieListAdapter(val startDrage: OnStartDrag, val retryListener: RetryListener) :
+class MovieListAdapter(
+    val startDrage: OnStartDrag,
+    val retryListener: RetryListener,
+    val movieListenter: MovieItemListener
+) :
     PagedListAdapter<Movie, RecyclerView.ViewHolder>(DiffUtil),
     TouchHelperAdapter {
 
@@ -84,7 +88,7 @@ class MovieListAdapter(val startDrage: OnStartDrag, val retryListener: RetryList
                 (holder as FooterRetryViewHolder).bind(retryListener)
             }
             ROW_ITEM -> {
-                (holder as MovieViewHolder).bind(getItem(position)!!, startDrage)
+                (holder as MovieViewHolder).bind(getItem(position)!!, startDrage, movieListenter)
             }
 
         }
@@ -126,19 +130,25 @@ class MovieListAdapter(val startDrage: OnStartDrag, val retryListener: RetryList
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view), ItemTouchBackgroundViewHolderHelper {
 
         fun bind(
-            movie: Movie,
-            startDrage: OnStartDrag
+            movieItem: Movie,
+            startDrag: OnStartDrag,
+            movieListener: MovieItemListener
         ) {
-            movie.let {
-                Glide.with(view.iv_poster.context)
+            movieItem.let {
+                Glide.with(view.iv_movie_poster.context)
                     .load("http://image.tmdb.org/t/p/w500" + it.posterPath)
                     .centerCrop()
-                    .into(view.iv_poster)
+                    .into(view.iv_movie_poster)
+
+                view.setOnLongClickListener {
+                    startDrag.startDrag(this)
+                    true
+                }
+                view.setOnClickListener {
+                    movieListener.onMovieItemClick(movieItem.id, movieItem.posterPath, view)
+                }
             }
-            view.setOnLongClickListener {
-                startDrage.startDrag(this)
-                true
-            }
+
         }
 
         override fun onItemClear() {
@@ -169,4 +179,8 @@ sealed class PageListFooter {
     object RETRY : PageListFooter()
     object NONE : PageListFooter()
 
+}
+
+interface MovieItemListener {
+    fun onMovieItemClick(movieId: Int, posterPath: String, view: View)
 }
