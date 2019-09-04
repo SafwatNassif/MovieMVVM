@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -145,7 +146,7 @@ class MovieListAdapter(
                     true
                 }
                 view.setOnClickListener {
-                    movieListener.onMovieItemClick(movieItem.id, movieItem.posterPath, view)
+                    movieListener.onMovieItemClick(movieItem.id, movieItem.posterPath, view.iv_movie_poster)
                 }
             }
 
@@ -182,5 +183,5 @@ sealed class PageListFooter {
 }
 
 interface MovieItemListener {
-    fun onMovieItemClick(movieId: Int, posterPath: String, view: View)
+    fun onMovieItemClick(movieId: Int, posterPath: String, view: ImageView)
 }

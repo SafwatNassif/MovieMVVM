@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -154,16 +152,17 @@ class MovieListFragment : BaseFragment(), MovieItemListener {
 
     }
 
-    override fun onMovieItemClick(movieId: Int, posterPath: String, view: View) {
-        val poster = view.findViewById<ImageView>(R.id.iv_movie_poster)
-        val fragmentOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            activity!!,
-            Pair<View, String>(poster, "shared_image_view")
+    override fun onMovieItemClick(movieId: Int, posterPath: String, posterImage: ImageView) {
+        posterImage.transitionName = "shared_image_view_$id"
+        val extra = FragmentNavigatorExtras(
+            posterImage to "shared_image_view_$id"
         )
-        val bundle = fragmentOptions.toBundle()
-        bundle!!.putString("poster_path", posterPath)
+        val bundle = Bundle().apply {
+            putString("poster_path", posterPath)
+            putString("transitionName", "shared_image_view_$id")
+        }
 
-        findNavController().navigate(R.id.detailsFragment, bundle)
+        findNavController().navigate(R.id.detailsFragment, bundle, null, extra)
     }
 
     override fun onStop() {

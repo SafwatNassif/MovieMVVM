@@ -37,13 +37,13 @@
 
         />
 
-        <Constraint android:id="@+id/iv_movie_poster"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_coordinator_background"
-                    app:layout_constraintTop_toBottomOf="@id/iv_coordinator_background"/>
+        <!--<Constraint android:id="@+id/iv_movie_poster"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="0dp"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintBottom_toBottomOf="@id/iv_coordinator_background"-->
+                    <!--app:layout_constraintTop_toBottomOf="@id/iv_coordinator_background"/>-->
 
 
     </ConstraintSet>
