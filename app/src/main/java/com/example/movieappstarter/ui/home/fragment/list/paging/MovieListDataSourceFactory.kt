@@ -10,7 +10,10 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by Safwat Nassif on 7/30/2019.
  */
 class MovieListDataSourceFactory
-constructor(private val repository: MovieListRepository, private val compositeDisposable: CompositeDisposable) :
+constructor(
+    private val repository: MovieListRepository,
+    private val compositeDisposable: CompositeDisposable
+) :
     DataSource.Factory<Int, Movie>() {
 
     private val movieListDataSource = MutableLiveData<MovieListDataSource>()

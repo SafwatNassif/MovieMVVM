@@ -14,9 +14,10 @@ import com.example.movieappstarter.utils.basemvi.MviViewModel
 import com.example.movieappstarter.utils.notOfType
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import java.io.IOException
-import java.util.function.BiFunction
 import javax.inject.Inject
 
 /**
@@ -30,6 +31,7 @@ constructor(private val movieListActionProcessor: MovieListActionProcessor) : Ba
     lateinit var movieList: LiveData<PagedList<Movie>>
     private val intentSubject: PublishSubject<MovieListIntent> = PublishSubject.create()
     private val movieListStateObserve: Observable<MovieListViewState> = compose()
+    private val composDisposable = CompositeDisposable()
 
     private val intentFilter: ObservableTransformer<MovieListIntent, MovieListIntent>
         get() = ObservableTransformer { intents ->
@@ -43,7 +45,6 @@ constructor(private val movieListActionProcessor: MovieListActionProcessor) : Ba
         }
 
     lateinit var factory: MovieListDataSourceFactory
-    private var progressStatus: LiveData<Status> = MutableLiveData<Status>()
 
 
     override fun processIntents(intents: Observable<MovieListIntent>) {
@@ -59,7 +60,7 @@ constructor(private val movieListActionProcessor: MovieListActionProcessor) : Ba
         return intentSubject
             .compose(intentFilter)
             .map(this::fromIntentToAction)
-            .compose(movieListActionProcessor.actionProcessor)
+            .compose(movieListActionProcessor.actionProcessor(compositeDisposable))
             .scan(MovieListViewState.idle(), reducer)
     }
 
@@ -114,20 +115,18 @@ constructor(private val movieListActionProcessor: MovieListActionProcessor) : Ba
         factory.dataSource.retry()
     }
 
-    fun getProgressStatus() = progressStatus
 
     companion object {
         val reducer = BiFunction { previousState: MovieListViewState, result: MovieListResult ->
             when (result) {
                 is MovieListResult.LoadDataResult -> when (result) {
                     is MovieListResult.LoadDataResult.Success -> {
-                        val list = result.data
                         previousState.copy(
                             isLoadMore = false,
                             isRefresh = false,
                             isError = false,
                             isLoading = false,
-                            movieList =
+                            movieList = result.data
                         )
                     }
                 }

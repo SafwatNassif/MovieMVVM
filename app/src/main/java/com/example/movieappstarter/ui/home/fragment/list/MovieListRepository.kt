@@ -13,10 +13,10 @@ import javax.inject.Inject
 class MovieListRepository @Inject constructor() : BaseRepository() {
 
     @Inject
-    private lateinit var homeRemoteDataSource: HomeRemoteDataSource
+    lateinit var homeRemoteDataSource: HomeRemoteDataSource
 
     @Inject
-    private lateinit var sharedPrefUtils: SharedPrefUtils
+    lateinit var sharedPrefUtils: SharedPrefUtils
 
     fun getPopularMovie(page: Int): Single<PageMovie> {
 //        sharedPrefUtils.setName("safwat")

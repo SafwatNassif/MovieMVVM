@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.movieappstarter.R
@@ -42,7 +43,6 @@ class MovieListFragment : BaseFragment(), MVIView<MovieListIntent, MovieListView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind()
-
         sw_refresh.setOnRefreshListener {
             viewModel.refresh()
         }
@@ -57,14 +57,13 @@ class MovieListFragment : BaseFragment(), MVIView<MovieListIntent, MovieListView
     override fun intents(): Observable<MovieListIntent> {
         return Observable.merge(
             initialIntent(),
-            loadMoreIntent(),
-            pullToRefreshIntent(),
             navigateToDetails()
         )
     }
 
     override fun render(state: MovieListViewState) {
         //pass
+        Toast.makeText(context, "done", Toast.LENGTH_LONG).show()
     }
 
     //    initial intent will load data.
@@ -73,7 +72,7 @@ class MovieListFragment : BaseFragment(), MVIView<MovieListIntent, MovieListView
     }
 
     private fun loadMoreIntent(): Observable<MovieListIntent.LoadMoreMovie> {
-        return Observable.just(MovieListIntent.LoadMoreMovie(2))
+        return Observable.just(MovieListIntent.LoadMoreMovie)
     }
 
     private fun pullToRefreshIntent(): Observable<MovieListIntent.PullToRefresh> {
